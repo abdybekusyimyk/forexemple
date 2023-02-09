@@ -1,6 +1,7 @@
 // dio,  http
 // 1 dio kochurobuz
 // 2 jsonplaceholde  chormdon kiruu
+// await alyptashtoo
 
 import 'package:dio/dio.dart';
 
