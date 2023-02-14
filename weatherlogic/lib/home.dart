@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:weatherlogic/components/custom_button.dart';
 import 'package:weatherlogic/constants/api_const.dart';
+import 'package:weatherlogic/constants/app_text.dart';
+import 'package:weatherlogic/constants/app_text_style.dart';
 import 'package:weatherlogic/models/weather.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,37 +63,101 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Homepage'),
-      ),
-      body: Center(
-        child: FutureBuilder(
-          future: fetchData(),
-          builder: (ctx, sn) {
-            ///debaag
-            if (sn.hasData) {
-              return Column(
-                children: [
-                  Text(sn.data!.id.toString()),
-                  Text(sn.data!.main),
-                  Text(sn.data!.description),
-                  Text(sn.data!.icon),
-
-                  ///222222222222
-                  Text(sn.data!.city),
-                  Text(sn.data!.temp.toString()),
-                  Text(sn.data!.countru),
-                ],
-              );
-            } else if (sn.hasError) {
-              return Text(sn.error.toString());
-            } else {
-              return const CircularProgressIndicator();
-            }
-            //111111111111111111
-            // return Text(sn.toString());
-          },
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          AppText.appBartitle,
+          style: AppTextStyle.appBar,
         ),
       ),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/weather.jpg',
+              ),
+              fit: BoxFit.cover),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(icon: Icons.near_me),
+                CustomButton(icon: Icons.location_city),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(
+                //     Icons.location_city,
+                //     size: 60,
+                //     color: Colors.white,
+                //   ),
+                // )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 20),
+                Text(
+                  '8',
+                  style: TextStyle(fontSize: 96, color: Colors.white),
+                ),
+                Image.network(ApiConst.getIcon('11n', 4))
+              ],
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "You'll need and".replaceAll(' ', '\n'),
+                    style: AppTextStyle.centertext,
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Bishkek',
+                  style: TextStyle(color: Colors.white, fontSize: 90),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      // body: Center(
+      //   child: FutureBuilder(
+      //     future: fetchData(),
+      //     builder: (ctx, sn) {
+      //       ///debaag
+      //       if (sn.hasData) {
+      //         return Column(
+      //           children: [
+      //             Text(sn.data!.id.toString()),
+      //             Text(sn.data!.main),
+      //             Text(sn.data!.description),
+      //             Text(sn.data!.icon),
+
+      //             ///222222222222
+      //             Text(sn.data!.city),
+      //             Text(sn.data!.temp.toString()),
+      //             Text(sn.data!.countru),
+      //           ],
+      //         );
+      //       } else if (sn.hasError) {
+      //         return Text(sn.error.toString());
+      //       } else {
+      //         return const CircularProgressIndicator();
+      //       }
+      //       //111111111111111111
+      //       // return Text(sn.toString());
+      //     },
+      //   ),
+      // ),
     );
   }
 }
