@@ -1,7 +1,13 @@
+// import 'dart:math';
+
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weatherlogic/components/custom_button.dart';
 import 'package:weatherlogic/constants/api_const.dart';
 import 'package:weatherlogic/constants/app_text.dart';
@@ -16,24 +22,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ///111111111111111
-  // Future<dynamic> fetchData() async {
-  //   final dio = Dio();
-  //   final res = await dio.get(ApiConst.address);
-  //   print(res);
-  //   return res;
-  // }
+  Future<void> weatherLaction() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
 
-  //22222222222222222
-  // 200 syroo iugiluktuu boldy
-  Future<Weather?> fetchData() async {
+      if (permission == LocationPermission.denied
+          // permission == LocationPermission.always &&
+          //   permission == LocationPermission.whileInUse
+          ) {
+        await fetchData();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition();
+      print(position.latitude);
+      print(position.longitude);
+    }
+  }
+
+  Future<Weather?>? fetchData() async {
+    Future.delayed(Duration(seconds: 3));
     final dio = Dio();
     final res = await dio.get(ApiConst.address);
     if (res.statusCode == 200) {
-      //1111111111111
-      // final Weather weather = res.data['weather'][0];
-
-      //22222222222222
       final Weather weather = Weather(
           id: res.data['weather'][0]['id'],
           main: res.data['weather'][0]['main'],
@@ -46,18 +57,8 @@ class _HomePageState extends State<HomePage> {
 
       return weather;
     }
-
-    //1111111111
-    // print(res);
-    // return res;
+    return null;
   }
-
-  /// ekbirinchi chakyryla turgan funksia
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchData();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,64 +71,87 @@ class _HomePageState extends State<HomePage> {
           style: AppTextStyle.appBar,
         ),
       ),
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                'assets/weather.jpg',
-              ),
-              fit: BoxFit.cover),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButton(icon: Icons.near_me),
-                CustomButton(icon: Icons.location_city),
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: const Icon(
-                //     Icons.location_city,
-                //     size: 60,
-                //     color: Colors.white,
-                //   ),
-                // )
-              ],
-            ),
-            Row(
-              children: [
-                SizedBox(width: 20),
-                Text(
-                  '8',
-                  style: TextStyle(fontSize: 96, color: Colors.white),
+      body: FutureBuilder<Weather?>(
+        future: fetchData(),
+        builder: (context, sn) {
+          if (sn.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (sn.connectionState == ConnectionState.none) {
+            return Text('Internete kata bar');
+          } else if (sn.connectionState == ConnectionState.done) {
+            // iigiliktuu
+            if (sn.hasError) {
+              return Text('${sn.error}'); // kata ketirip kor
+            } else if (sn.hasData) {
+              final weather = sn.data!;
+              return Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/weather.jpg',
+                      ),
+                      fit: BoxFit.cover),
                 ),
-                Image.network(ApiConst.getIcon('11n', 4))
-              ],
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "You'll need and".replaceAll(' ', '\n'),
-                    style: AppTextStyle.centertext,
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Bishkek',
-                  style: TextStyle(color: Colors.white, fontSize: 90),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomButton(
+                          icon: Icons.near_me,
+                          onPressed: () async {
+                            await weatherLaction();
+                          },
+                        ),
+                        CustomButton(
+                          icon: Icons.location_city,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 10),
+                        Text(
+                          "${(weather.temp - 273.15).floorToDouble()} ",
+                          style: TextStyle(fontSize: 96, color: Colors.white),
+                        ),
+                        Image.network(ApiConst.getIcon(weather.icon, 4))
+                      ],
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "${weather.description}".replaceAll(' ', '\n'),
+                            style: AppTextStyle.centertext,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          weather.city, // Expanded   FittedBox
+                          style: TextStyle(color: Colors.white, fontSize: 90),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            )
-          ],
-        ),
+              );
+            } else {
+              return Text('Belgisiz kata boldu');
+            }
+          } else {
+            return Text('Belgisiz kata boldu');
+          }
+        },
       ),
       // body: Center(
       //   child: FutureBuilder(
