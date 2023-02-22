@@ -6,7 +6,7 @@ class Weather {
 
   ///222222
   final String city;
-  final String countru;
+  final String? countru;
   final double temp;
 
   Weather({
@@ -18,7 +18,7 @@ class Weather {
     ///222
 
     required this.city,
-    required this.countru,
+    this.countru,
     required this.temp,
   });
 }
