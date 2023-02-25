@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "248309591855",
+    "project_id": "tofed-46c43",
+    "storage_bucket": "tofed-46c43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248309591855:android:870fc657a6ba5a70be7bda",
+        "android_client_info": {
+          "package_name": "com.example.tofed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248309591855-232gffdutlgp7tkk3055qg75auhfit7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKCedAS7dNOjGpGQSXPo08OtcNAYslhhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248309591855-232gffdutlgp7tkk3055qg75auhfit7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
