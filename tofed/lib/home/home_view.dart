@@ -36,25 +36,47 @@ class _HomeViewState extends State<HomeView> {
     return db.collection('todes').snapshots();
   }
 
+/////11111111111111111111111
+  // Future<void> ubdateTodo(bool isCompleted) async {
+  //   final db = FirebaseFirestore.instance;
+  //   await db
+  //       .collection('todes')
+  //       .doc('HRxPenlfJFIzfkUyRQBa')
+  //       .update({'isCompleted': false});
+  // }
+  Future<void> ubdateTodo(Todo todo) async {
+    final db = FirebaseFirestore.instance;
+    await db
+        .collection('todes')
+        .doc(todo.id)
+        .update({'isCompleted': !todo.isCompleted});
+  }
+
+  Future<void> deleteTodo(Todo todo) async {
+    final db = FirebaseFirestore.instance;
+    await db.collection('todes').doc(todo.id).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Text'),
+        title: const Text('Text'),
       ),
       body: StreamBuilder(
         stream: readTodos(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CupertinoActivityIndicator(),
             );
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           } else if (snapshot.hasData) {
             final List<Todo> todos = snapshot.data!.docs
-                .map((e) => Todo.fromJson(e.data() as Map<String, dynamic>))
+                .map((e) =>
+                    Todo.fromJson(e.data() as Map<String, dynamic>)..id = e.id)
                 .toList();
             return ListView.builder(
               itemCount: todos.length,
@@ -63,10 +85,22 @@ class _HomeViewState extends State<HomeView> {
                 return Card(
                   child: ListTile(
                     title: Text(todo.title),
-                    // trailing: Checkbox(
-                    //   value: todo.isCompleted,
-                    //   onChanged: (v) {},
-                    // ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Checkbox(
+                          value: todo.isCompleted,
+                          onChanged: (v) async {
+                            await ubdateTodo(todo);
+                          },
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              await deleteTodo(todo);
+                            },
+                            icon: const Icon(Icons.delete))
+                      ],
+                    ),
                     subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,26 +112,13 @@ class _HomeViewState extends State<HomeView> {
               },
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Some Error'),
             );
           }
         },
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       const Text(
-      //         'You have pushed the button this many times:',
-      //       ),
-      //       Text(
-      //         'o',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //     ],
-      //   ),
-      // ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,

@@ -22,7 +22,7 @@ class _AddTodoviewState extends State<AddTodoview> {
     final tode = Todo(
         title: title.text,
         decription: decription.text,
-        // isCompleted: isCompleted,
+        isCompleted: isCompleted,
         author: auther.text);
     await db.collection('todes').add(tode.toJson());
   }
@@ -40,10 +40,10 @@ class _AddTodoviewState extends State<AddTodoview> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: title,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: 'Title', border: OutlineInputBorder()),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: decription,
                   maxLines: 7,

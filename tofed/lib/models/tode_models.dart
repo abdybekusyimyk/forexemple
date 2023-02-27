@@ -5,22 +5,25 @@
 // import 'dart:convert';
 
 class Todo {
-  Todo(
-      {required this.title,
-      this.decription,
-      // required this.isCompleted,
-      required this.author});
+  Todo({
+    this.id,
+    required this.title,
+    this.decription,
+    required this.isCompleted,
+    required this.author,
+  });
 
+  String? id;
   final String title;
   final String? decription;
-  // final bool isCompleted;
+  final bool isCompleted;
   final String author;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'title': title,
       'decription': decription,
-      // 'isCompleted': isCompleted,
+      'isCompleted': isCompleted,
       'author': author,
     };
   }
@@ -29,7 +32,7 @@ class Todo {
     return Todo(
       title: map['title'],
       decription: map['decription'],
-      // isCompleted: map['isCompleted'],
+      isCompleted: map['isCompleted'],
       author: map['author'],
     );
   }
