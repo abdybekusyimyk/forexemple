@@ -81,8 +81,8 @@ class _HomeViewState extends State<HomeView> {
               // bottom: 20,
               bottom: isFullSun ? 15 : -140,
               left: 40,
-              child: SvgPicture.asset('assets/Sun.svg'),
               duration: duration,
+              child: SvgPicture.asset('assets/Sun.svg'),
             ),
             Positioned(
               bottom: -60,
@@ -112,7 +112,7 @@ class _HomeViewState extends State<HomeView> {
                       fontSize: 18, fontWeight: FontWeight.w700),
                   indicator: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(0),
                   ),
                   onTap: (value) async {
                     await changeMode(value);

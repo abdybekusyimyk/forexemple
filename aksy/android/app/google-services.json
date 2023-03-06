@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053237052987",
+    "project_id": "jar-ex",
+    "storage_bucket": "jar-ex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053237052987:android:7e64b9f2e9c4dc798e7e1e",
+        "android_client_info": {
+          "package_name": "com.example.aksy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053237052987-s0j7i7pef4jcglql9u9rehnodsojratt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8cEgGQRIad3oavW3XZ5A9RxBUmIyjDMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053237052987-s0j7i7pef4jcglql9u9rehnodsojratt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

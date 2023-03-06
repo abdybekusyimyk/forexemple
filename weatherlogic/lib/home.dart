@@ -180,28 +180,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Row(
                       children: [
-                        // SizedBox(width: 10),
+                        const SizedBox(width: 5),
                         Text(
                           "${(weather!.temp - 273.15).floorToDouble()} ",
-                          style: TextStyle(fontSize: 85, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 85, color: Colors.white),
                         ),
                         Image.network(ApiConst.getIcon(weather!.icon, 4))
                       ],
                     ),
+                    const SizedBox(height: 70),
                     Expanded(
-                      child: FittedBox(
-                        child: Text(
-                          "${weather!.description}".replaceAll(' ', '\n'),
-                          style: AppTextStyle.centertext,
-                        ),
+                      child: Text(
+                        weather!.description.replaceAll(' ', '\n'),
+                        style: AppTextStyle.centertext,
                       ),
                     ),
                     Expanded(
-                      child: FittedBox(
-                        child: Text(
-                          weather!.city, // Expanded   FittedBox
-                          style: TextStyle(color: Colors.white, fontSize: 90),
-                        ),
+                      child: Text(
+                        weather!.city, // Expanded   FittedBox
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 90),
                       ),
                     )
                   ],
@@ -269,8 +268,8 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return Container(
             height: MediaQuery.of(context).size.height * 0.7,
-            color: Color.fromARGB(255, 107, 105, 97),
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            color: const Color.fromARGB(255, 107, 105, 97),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: ListView.builder(
                 itemCount: cityes.length,
                 itemBuilder: (BuildContext context, int index) {
