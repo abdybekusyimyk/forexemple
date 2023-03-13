@@ -2,6 +2,7 @@
     package="com.example.aksy">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- <android:requestLegacyExternalStorage="true"> -->
    <application
         android:label="aksy"
         android:name="${applicationName}"
